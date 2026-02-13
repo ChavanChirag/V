@@ -43,55 +43,43 @@ body {
 
 <!-- PAGE 1 -->
 <div id="page1" class="text-center">
-
 <img id="mainImage" src="https://i.imgur.com/UPSKZF7.gif"
 class="w-72 mx-auto rounded-xl shadow-lg"/>
-
 <h1 id="question" class="text-4xl font-bold text-pink-600 mt-6">
 Will you be my Valentine? ❤️
 </h1>
-
 <div class="mt-6 flex justify-center gap-5">
 <button id="yesBtn" class="bg-green-500 text-white px-6 py-3 rounded-xl text-xl bounce">Yes 💖</button>
 <button id="noBtn" class="bg-red-500 text-white px-6 py-3 rounded-xl text-xl">No 💔</button>
 </div>
-
 </div>
 
 <!-- PAGE 2 LETTER OPENING -->
 <div id="page2" class="hidden flex flex-col items-center relative">
-
 <img id="letterClosed"
 src="https://i.imgur.com/tlyiRvP.jpeg"
 class="w-60 cursor-pointer float drop-shadow-xl z-10" />
-
 <img id="letterOpen"
 src="https://i.imgur.com/ZaazxR0.jpeg"
 class="w-60 hidden drop-shadow-xl z-10" />
-
 <p id="loveNote"
 class="absolute top-32 text-center text-pink-700 text-xl max-w-md opacity-0 transition-all duration-1000 translate-y-20 font-semibold">
 Thank you for being in my life ❤️
 </p>
-
 <button id="afterLetter"
 class="hidden mt-48 bg-pink-500 text-white px-6 py-3 rounded-xl text-xl bounce">
 Next ➝
 </button>
-
 <p class="text-pink-600 mt-4 text-lg">Click the letter 💌</p>
-
 </div>
 
 <!-- PAGE 3 MESSAGE -->
 <div id="page3" class="hidden flex flex-col items-center text-center romantic-bg p-10 rounded-xl">
-
 <p class="text-2xl text-pink-700 font-semibold max-w-xl fadeIn mb-6">
 From the moment you came into my life, everything became brighter, happier and more beautiful.<br>
 You are my smile, my peace and my biggest happiness.<br>
 Thank you for being mine. I love you endlessly ❤️
 </p>
-
 <button id="toQuiz" class="bg-pink-500 text-white px-6 py-3 rounded-xl text-xl bounce">Next ➝</button>
 </div>
 
@@ -183,31 +171,11 @@ document.getElementById("toQuiz").onclick=()=>{
 
 // PAGE 4 QUIZ
 const quizData = [
-  {
-    question: "What was the date we first met?",
-    options: ["22 August","24 August","21 August"],
-    answer: 1
-  },
-  {
-    question: "What was the food we ate on our first date?",
-    options: ["Momos","Ramen","Ice Cream"],
-    answer: 1
-  },
-  {
-    question: "Who loves you more?",
-    options: ["Your boyfriend","Chirag","Bonu"],
-    answer: 2
-  },
-  {
-    question: "How long have we been together?",
-    options: ["1 year 3 months","2 years 4 months","1 year 5 months"],
-    answer: 2
-  },
-  {
-    question: "What could be our common favorite food?",
-    options: ["Chinese","Butter Chicken","Fish Thali"],
-    answer: 2
-  }
+  { question: "What was the date we first met?", options: ["22 August","24 August","21 August"], answer: 1 },
+  { question: "What was the food we ate on our first date?", options: ["Momos","Ramen","Ice Cream"], answer: 1 },
+  { question: "Who loves you more?", options: ["Your boyfriend","Chirag","Bonu"], answer: 2 },
+  { question: "How long have we been together?", options: ["1 year 3 months","2 years 4 months","1 year 5 months"], answer: 2 },
+  { question: "What could be our common favorite food?", options: ["Chinese","Butter Chicken","Fish Thali"], answer: 2 }
 ];
 
 let currentQuestion=0;
@@ -231,7 +199,7 @@ function showQuestion(qIndex) {
     const btn = document.createElement("button");
     btn.className="option-btn px-4 py-2 rounded mb-2 w-full text-white text-lg";
     btn.innerText = opt;
-    btn.style.backgroundColor = "#f472b6"; // Tailwind bg-pink-400 fallback
+    btn.style.backgroundColor = "#f472b6";
     btn.onclick = () => checkAnswer(i, btn, q.answer);
     quizContainer.appendChild(btn);
   });
@@ -242,10 +210,10 @@ function checkAnswer(selected, btn, correct) {
   buttons.forEach(b => b.disabled = true);
   
   if(selected === correct){
-    btn.style.backgroundColor = "#22c55e"; // green-500
+    btn.style.backgroundColor = "#22c55e"; // green
     confetti({particleCount:150,spread:100});
   } else {
-    btn.style.backgroundColor = "#ef4444"; // red-500
+    btn.style.backgroundColor = "#ef4444"; // red
     buttons[correct].style.backgroundColor = "#22c55e"; // highlight correct
   }
 
@@ -254,12 +222,12 @@ function checkAnswer(selected, btn, correct) {
     if(currentQuestion < quizData.length){
       showQuestion(currentQuestion);
     } else {
-      // Quiz complete → show your hosted video using iframe
+      // Quiz complete → show your GitHub video
       quizContainer.innerHTML = `
-        <iframe class="w-full max-w-xl rounded-xl shadow-lg fadeIn" 
-            src="https://drive.google.com/file/d/1bIJrgqLQA8ie-cU7NDN0_9VFAHzpGT_J/preview" 
-            width="640" height="360" frameborder="0" allowfullscreen>
-        </iframe>
+        <video class="w-full max-w-xl rounded-xl shadow-lg fadeIn" controls autoplay>
+          <source src="https://chavanchirag.github.io/V/lv_7533149982778576189_20260213135946.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
       `;
     }
   },1500);

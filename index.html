@@ -1,162 +1,200 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="A cute Valentine's Day page to ask someone to be your Valentine!">
-  <meta name="theme-color" content="#ffd0e5">
-  <title>Valentine's Day</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
-  <style>
-    .gradient-background {
-      background: linear-gradient(180deg, #ffd0e5 0%, #ffe8f2 36%, #ffffff 100%);
-      min-height: 100vh;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Be My Valentine ❤️</title>
 
-    .bounce {
-      animation: bounce 2s ease infinite;
-    }
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
-    @keyframes bounce {
-      0%, 20%, 50%, 80%, 100% {
-        transform: translateY(0);
-      }
-      40% {
-        transform: translateY(-20px);
-      }
-      60% {
-        transform: translateY(-10px);
-      }
-    }
-  </style>
-  <!-- Preload images so transitions feel instant -->
-  <link rel="preload" as="image" href="./images/image1.gif">
-  <link rel="preload" as="image" href="./images/image2.gif">
-  <link rel="preload" as="image" href="./images/image3.gif">
-  <link rel="preload" as="image" href="./images/image4.gif">
-  <link rel="preload" as="image" href="./images/image5.gif">
-  <link rel="preload" as="image" href="./images/image6.gif">
-  <link rel="preload" as="image" href="./images/image7.gif">
+<style>
+body {
+  background: linear-gradient(to bottom, #ffd6e8, #fff);
+  overflow: hidden;
+}
+
+.bounce { animation: bounce 1.5s infinite; }
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+
+.float { animation: float 3s ease-in-out infinite; }
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+  100% { transform: translateY(0px); }
+}
+
+.fadeIn { animation: fadeIn 1s ease forwards; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Page 3 Romantic Background */
+.romantic-bg {
+  background: linear-gradient(135deg, #ffc0cb, #ffe4ec);
+  background-image: url('https://i.imgur.com/9Qx4F0A.png');
+  background-size: cover;
+}
+
+</style>
 </head>
-<body class="gradient-background">
-  <main class="flex items-center justify-center h-screen">
-    <section class="flex flex-col items-center p-4">
-      <img
-        id="imageDisplay"
-        src="./images/image1.gif"
-        alt="Cute kitten with flowers"
-        class="rounded-md h-[300px] object-cover"
-      />
-      <h1 id="valentineQuestion" class="text-4xl font-bold italic text-[#bd1e59] my-4">
-        Will you be my Valentine?
-      </h1>
-      <div id="responseButtons" class="flex gap-4 pt-5 items-center">
-        <button
-          id="yesButton"
-          class="bounce inline-flex items-center justify-center whitespace-nowrap rounded-md text-xl font-medium cursor-pointer px-4 py-2 bg-green-500 text-white transition-all duration-300 ease-in-out hover:bg-green-400 min-h-12 min-w-[75px]"
-        >
-          Yes
-        </button>
-        <button
-          id="noButton"
-          class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-xl font-medium cursor-pointer px-4 py-2 bg-red-500 text-white transition-colors hover:bg-red-700 h-12 min-w-[75px]"
-        >
-          No
-        </button>
-      </div>
-    </section>
-  </main>
 
-  <script>
-    (() => {
-      // DOM references
-      const yesButton = document.getElementById('yesButton');
-      const noButton = document.getElementById('noButton');
-      const imageDisplay = document.getElementById('imageDisplay');
-      const valentineQuestion = document.getElementById('valentineQuestion');
-      const responseButtons = document.getElementById('responseButtons');
+<body class="flex items-center justify-center h-screen">
 
-      // Configuration
-      const GROWTH_PER_CLICK = 35;
-      const FONT_GROWTH_PER_CLICK = 25;
-      const MAX_NO_CLICKS = 5;
+<!-- PAGE 1 -->
+<div id="page1" class="text-center">
 
-      const IMAGE_PATHS = [
-        './images/image1.gif',
-        './images/image2.gif',
-        './images/image3.gif',
-        './images/image4.gif',
-        './images/image5.gif',
-        './images/image6.gif',
-        './images/image7.gif',
-      ];
+<img id="mainImage" src="images/image1.gif" class="w-72 mx-auto rounded-xl shadow-lg" />
 
-      const NO_BUTTON_MESSAGES = [
-        'No',
-        'Are you sure?',
-        'Pookie please',
-        "Don't do this to me :(",
-        "You're breaking my heart",
-        "I'm gonna cry...",
-      ];
+<h1 id="question" class="text-4xl font-bold text-pink-600 mt-6">
+Will you be my Valentine? ❤️
+</h1>
 
-      const ALT_TEXTS = [
-        'Cute kitten with flowers',
-        'Sad kitten looking up',
-        'Kitten begging',
-        'Heartbroken kitten',
-        'Crying kitten',
-        'Devastated kitten',
-        'Happy kitten celebrating',
-      ];
+<div class="mt-6 flex justify-center gap-5">
 
-      // State
-      let noClickCount = 0;
-      let buttonHeight = 48;
-      let buttonWidth = 80;
-      let fontSize = 20;
+<button id="yesBtn" class="bg-green-500 text-white px-6 py-3 rounded-xl text-xl bounce">
+Yes 💖
+</button>
 
-      noButton.addEventListener('click', () => {
-        if (noClickCount >= MAX_NO_CLICKS) return;
+<button id="noBtn" class="bg-red-500 text-white px-6 py-3 rounded-xl text-xl">
+No 💔
+</button>
 
-        noClickCount++;
+</div>
 
-        // Update image and alt text
-        imageDisplay.src = IMAGE_PATHS[noClickCount];
-        imageDisplay.alt = ALT_TEXTS[noClickCount];
+</div>
 
-        // Grow the "Yes" button to make it harder to ignore
-        buttonHeight += GROWTH_PER_CLICK;
-        buttonWidth += GROWTH_PER_CLICK;
-        fontSize += FONT_GROWTH_PER_CLICK;
 
-        yesButton.style.height = `${buttonHeight}px`;
-        yesButton.style.width = `${buttonWidth}px`;
-        yesButton.style.fontSize = `${fontSize}px`;
+<!-- PAGE 2 FLOATING LETTER -->
+<div id="page2" class="hidden flex flex-col items-center">
 
-        // Update "No" button text with increasingly desperate messages
-        noButton.textContent = NO_BUTTON_MESSAGES[noClickCount];
-      });
+<img id="letter" src="images/letter.png" 
+class="w-60 cursor-pointer float fadeIn drop-shadow-xl" />
 
-      yesButton.addEventListener('click', () => {
-        imageDisplay.src = IMAGE_PATHS[IMAGE_PATHS.length - 1];
-        imageDisplay.alt = ALT_TEXTS[ALT_TEXTS.length - 1];
-        valentineQuestion.textContent = 'Yayyy!! :3';
-        responseButtons.style.display = 'none';
+<p class="text-pink-600 mt-4 text-lg">Click the letter 💌</p>
 
-        // Heart-shaped confetti for a valentine theme
-        const heart = confetti.shapeFromPath({
-          path: 'M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z',
-        });
+</div>
 
-        const defaults = { spread: 360, ticks: 100, gravity: 0, decay: 0.94, startVelocity: 20, shapes: [heart], colors: ['#ff69b4', '#ff1493', '#ff6b81', '#e84393'] };
 
-        confetti({ ...defaults, particleCount: 50, scalar: 2 });
-        confetti({ ...defaults, particleCount: 25, scalar: 3 });
-        confetti({ ...defaults, particleCount: 10, scalar: 4 });
-      });
-    })();
-  </script>
+<!-- PAGE 3 PHOTO + MESSAGE + NEXT -->
+<div id="page3" class="hidden flex flex-col items-center text-center romantic-bg p-10 rounded-xl">
+
+<img src="images/lovePhoto.jpg" 
+class="w-80 rounded-xl shadow-xl mb-6 float fadeIn" />
+
+<p class="text-2xl text-pink-700 font-semibold max-w-xl fadeIn mb-6">
+From the moment you came into my life, everything became brighter, happier and more beautiful.
+You are my smile, my peace and my biggest happiness.
+Thank you for being mine. I love you endlessly ❤️
+</p>
+
+<button id="toQuiz" class="bg-pink-500 text-white px-6 py-3 rounded-xl text-xl bounce">
+Next ➝
+</button>
+
+</div>
+
+
+<!-- PAGE 4 QUIZ -->
+<div id="page4" class="hidden text-center">
+
+<h1 class="text-4xl font-bold text-pink-600 mb-6">Quiz Time 💕</h1>
+
+<p class="text-xl mb-4">When did we first meet?</p>
+
+<div class="flex flex-col gap-3">
+<button class="quizBtn bg-pink-400 px-4 py-2 rounded">Option 1</button>
+<button class="quizBtn bg-pink-400 px-4 py-2 rounded">Option 2</button>
+<button class="quizBtn bg-pink-400 px-4 py-2 rounded">Option 3</button>
+</div>
+
+<button id="quizNext" class="mt-6 bg-green-500 text-white px-6 py-3 rounded-xl">
+Next ➝
+</button>
+
+</div>
+
+
+<script>
+
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const mainImage = document.getElementById("mainImage");
+const question = document.getElementById("question");
+
+const page1 = document.getElementById("page1");
+const page2 = document.getElementById("page2");
+const page3 = document.getElementById("page3");
+const page4 = document.getElementById("page4");
+
+const letter = document.getElementById("letter");
+const toQuiz = document.getElementById("toQuiz");
+
+let noCount = 0;
+
+const noMessages = [
+"Are you sure? 😢",
+"Please baby 🥺",
+"Think again ❤️",
+"I will cry 😭",
+"Last chance 💔",
+"Okay fine... just click Yes 😭"
+];
+
+const images = [
+"images/image1.gif",
+"images/image2.gif",
+"images/image3.gif",
+"images/image4.gif",
+"images/image5.gif",
+"images/image6.gif",
+"images/image7.gif"
+];
+
+noBtn.onclick = () => {
+if(noCount < noMessages.length) {
+question.innerText = noMessages[noCount];
+mainImage.src = images[noCount + 1];
+let size = 1 + (noCount * 0.3);
+yesBtn.style.transform = `scale(${size})`;
+noCount++;
+}
+}
+
+
+// YES CLICK
+
+yesBtn.onclick = () => {
+confetti({ particleCount: 200, spread: 120 });
+page1.classList.add("hidden");
+page2.classList.remove("hidden");
+};
+
+
+// LETTER CLICK
+
+letter.onclick = () => {
+page2.classList.add("hidden");
+page3.classList.remove("hidden");
+confetti({ particleCount: 180, spread: 100 });
+};
+
+
+// PAGE 3 → PAGE 4
+
+toQuiz.onclick = () => {
+page3.classList.add("hidden");
+page4.classList.remove("hidden");
+};
+
+</script>
+
 </body>
-</html>
+</html> 
